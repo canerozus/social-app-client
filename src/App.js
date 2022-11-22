@@ -6,11 +6,15 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Outlet
+  Outlet,
+  Navigate
 } from "react-router-dom";
 import NavBar from "./components/navbar/NavBar";
 import LeftBar from "./components/leftbar/LeftBar";
 import RightBar from "./components/rightbar/RightBar";
+
+
+const currentUser = true;
 
 const Layout = () => {
   return (
@@ -18,20 +22,29 @@ const Layout = () => {
       <NavBar />
       <div style={{ display: "flex" }}>
         <LeftBar />
+        <div style={{ flex:6}}>
         <Outlet />
+        </div>
         <RightBar />
       </div>
+    </div>
+  )
+}
+const ProtectedRoute = () => {
+  return (
+    <div>
+      <Navigate to="/login" />
     </div>
   )
 }
 
 function App() {
   return (
-    <Router>
+    <Router>  
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={!currentUser ? <ProtectedRoute /> : <Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/profile/:id" element={<Profile />} />
         </Route>
