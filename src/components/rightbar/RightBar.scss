@@ -1,3 +1,99 @@
-.rightBar{
-    flex: 3;
+@import "../../style.scss";
+
+.rightBar {
+    @include themify($themes) {
+        flex: 3;
+        top: 70px;
+        position: sticky;
+        height: calc(100vh - 70px);
+        overflow: scroll;
+        background: themed("bgSoft");
+        
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        .container {
+            padding: 20px;
+
+            .item {
+                -webkit-box-shadow: -2px 2px 11px 0px rgba(71, 71, 71, 0.3);
+                -moz-box-shadow: -2px 2px 11px 0px rgba(71, 71, 71, 0.3);
+                box-shadow: -2px 2px 11px 0px rgba(71, 71, 71, 0.3);
+                padding: 20px;
+                margin-bottom: 20px;
+                background: themed("bg");
+
+                span {
+
+                    color: themed("textColor");
+                }
+
+                .user {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    margin: 20px 0px;
+                    position: relative;
+                    span{
+                        color: themed("textColorSoft");
+
+                    }
+                    .userInfo {
+                        display: flex;
+                        align-items: center;
+                        gap: 20px;
+
+                        img {
+                            height: 30px;
+                            width: 30px;
+                            border-radius: 50%;
+                            object-fit: cover;
+                        }
+
+                        .online {
+                            width: 12px;
+                            height: 12px;
+                            border-radius: 50%;
+                            background-color: limegreen;
+                            top: 0;
+                            position: absolute;
+                            left: 20px;
+                        }
+
+                        p {
+                            color: themed("textColorSoft");
+                        }
+
+                        span {
+                            font-weight: 500;
+                            color: themed("textColor");
+                        }
+                    }
+
+                    .buttons {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+
+                        button {
+                            border: none;
+                            padding: 5px;
+                            cursor: pointer;
+                            color: white;
+                            border-radius: 3px;
+
+                            &:first-child {
+                                background-color: #5271ff;
+                            }
+
+                            &:last-child {
+                                background-color: #f0544f;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

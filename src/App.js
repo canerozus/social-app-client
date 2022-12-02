@@ -12,24 +12,12 @@ import {
 import NavBar from "./components/navbar/NavBar";
 import LeftBar from "./components/leftbar/LeftBar";
 import RightBar from "./components/rightbar/RightBar";
-
+import { DarkModeContext, DarkModeContextProvider } from "./context/DarkModeContext";
+import { useContext } from "react";
 
 const currentUser = true;
 
-const Layout = () => {
-  return (
-    <div>
-      <NavBar />
-      <div style={{ display: "flex" }}>
-        <LeftBar />
-        <div style={{ flex:6}}>
-        <Outlet />
-        </div>
-        <RightBar />
-      </div>
-    </div>
-  )
-}
+
 const ProtectedRoute = () => {
   return (
     <div>
@@ -39,8 +27,25 @@ const ProtectedRoute = () => {
 }
 
 function App() {
+
+  const { darkMode } = useContext(DarkModeContext)
+  const Layout = () => {
+    return (
+      <div className={`theme-${darkMode ? "dark" : "light"}`}>
+        <NavBar />
+        <div style={{ display: "flex" }}>
+          <LeftBar />
+          <div style={{ flex: 6 }}>
+            <Outlet />
+          </div>
+          <RightBar />
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <Router>  
+    <Router>
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
