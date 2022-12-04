@@ -1,7 +1,21 @@
-import { Link } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { Link, useNavigate } from "react-router-dom"
 import "./Login.scss"
-
+import { login } from "../../store/AuthSlice"
+import { useState } from "react"
 const Login = () => {
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  console.log(login)
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(login({ username, password }))
+    navigate("/")
+    setUsername("");
+    setPassword("");
+  }
   return (
     <div className='login'>
       <div className='card'>
@@ -13,15 +27,15 @@ const Login = () => {
           </p>
           <span>Don't you have an account ?</span>
           <Link to="/register">
-            <button>Register</button>
+            <button >Register</button>
           </Link>
         </div>
         <div className='right'>
           <h1>Login</h1>
-          <form>
-            <input type="text" placeholder='Username' />
-            <input type="password" placeholder='Password' />
-            <button>Login</button>
+          <form onSubmit={onSubmit}>
+            <input type="text" placeholder='Username' value={username} onChange={(e) => setUsername(e.target.value)} />
+            <input type="password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
+            <button type="submit">Login</button>
           </form>
         </div>
       </div>

@@ -7,12 +7,30 @@ import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import { Link } from "react-router-dom";
-import { DarkModeContext } from "../../context/DarkModeContext";
-import { useContext } from "react";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setDarkMode } from "../../store/DarkSlice";
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import { logout } from "../../store/AuthSlice"
 const NavBar = () => {
-  const { darkMode, toggle } = useContext(DarkModeContext)
+  const { darkMode } = useSelector(state => state.dark);
+  const {name, profilePic } = useSelector(state => state.auth)
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const toggleDark = () => {
+    if (darkMode === false) {
+      dispatch(setDarkMode(true))
+    } else {
+      dispatch(setDarkMode(false))
+
+    }
+  }
+  const handleLogout = (e) => {
+    e.preventDefault();
+    dispatch(logout(true))
+    navigate("/login");
+  }
+
   return (
     <div className="navbar">
       <div className="left">
@@ -20,7 +38,7 @@ const NavBar = () => {
           <span>VukSocial</span>
         </Link>
         <HomeOutlinedIcon />
-        {!darkMode ? <DarkModeOutlinedIcon onClick={toggle} style={{cursor: "pointer"}}/> : <WbSunnyOutlinedIcon onClick={toggle} style={{cursor: "pointer"}} />}
+        {!darkMode ? <DarkModeOutlinedIcon onClick={toggleDark} style={{ cursor: "pointer" }} /> : <WbSunnyOutlinedIcon onClick={toggleDark} style={{ cursor: "pointer" }} />}
         <GridViewOutlinedIcon />
         <div className="search">
           <SearchOutlinedIcon />
@@ -32,8 +50,9 @@ const NavBar = () => {
         <EmailOutlinedIcon />
         <NotificationsOutlinedIcon />
         <div className="user">
-          <img src="https://images.pexels.com/photos/3228727/pexels-photo-3228727.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="" />
-          <span>Henry Walker</span>
+          <img src={profilePic} alt="" />
+          <span>{name}</span>
+          <LogoutOutlinedIcon onClick={handleLogout} style={{ cursor: "pointer" }} />
         </div>
       </div>
     </div>

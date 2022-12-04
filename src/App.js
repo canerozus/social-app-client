@@ -12,10 +12,9 @@ import {
 import NavBar from "./components/navbar/NavBar";
 import LeftBar from "./components/leftbar/LeftBar";
 import RightBar from "./components/rightbar/RightBar";
-import { DarkModeContext, DarkModeContextProvider } from "./context/DarkModeContext";
-import { useContext } from "react";
+import { useSelector } from "react-redux";
 
-const currentUser = true;
+
 
 
 const ProtectedRoute = () => {
@@ -27,8 +26,8 @@ const ProtectedRoute = () => {
 }
 
 function App() {
-
-  const { darkMode } = useContext(DarkModeContext)
+  const { loggedIn } = useSelector(state => state.auth)
+  const { darkMode } = useSelector(state => state.dark)
   const Layout = () => {
     return (
       <div className={`theme-${darkMode ? "dark" : "light"}`}>
@@ -47,9 +46,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/" element={!currentUser ? <ProtectedRoute /> : <Layout />}>
+        <Route path="/register" element={loggedIn ? <Navigate to="/" /> :  <Register />} />
+        <Route path="/login" element={loggedIn? <Navigate to="/" /> :  <Login />} />
+        <Route path="/" element={!loggedIn ? <ProtectedRoute /> : <Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/profile/:id" element={<Profile />} />
         </Route>
