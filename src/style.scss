@@ -1,14 +1,12 @@
 $themes: (
-  light: (
-    textColor: #000,
+  light: (textColor: #000,
     bg: white,
     logo: #5271ff,
     bgSoft: #f6f3f3,
     textColorSoft: #555,
     border: lightgray,
   ),
-  dark: (
-    textColor: whitesmoke,
+  dark: (textColor: whitesmoke,
     bg: #222,
     logo: white,
     bgSoft: #333,
@@ -18,18 +16,20 @@ $themes: (
 );
 
 @mixin themify($themes) {
-  @each $theme, $map in $themes {
+
+  @each $theme,
+  $map in $themes {
     .theme-#{$theme} & {
       $theme-map: () !global;
-      @each $key, $submap in $map {
+
+      @each $key,
+      $submap in $map {
         $value: map-get(map-get($themes, $theme), "#{$key}");
-        $theme-map: map-merge(
-          $theme-map,
-          (
-            $key: $value,
-          )
-        ) !global;
+        $theme-map: map-merge($theme-map,
+          ($key: $value,
+          )) !global;
       }
+
       @content;
       $theme-map: null !global;
     }
@@ -38,4 +38,16 @@ $themes: (
 
 @function themed($key) {
   @return map-get($theme-map, $key);
+}
+
+@mixin mobile {
+  @media (max-width: 480px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: 960px) {
+    @content;
+  }
 }
