@@ -11,12 +11,17 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setDarkMode } from "../../store/DarkSlice";
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import { logout } from "../../store/AuthSlice"
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/authContext";
+
 const NavBar = () => {
+  const { currentUser,setCurrentUser } = useContext(AuthContext);
   const { darkMode } = useSelector(state => state.dark);
-  const {name, profilePic } = useSelector(state => state.auth)
+  const [inputs, setInputs] = useState()
   const dispatch = useDispatch();
   const navigate = useNavigate()
+  const [err, setErr] = useState(null);
+  const { logout } = useContext(AuthContext);
   const toggleDark = () => {
     if (darkMode === false) {
       dispatch(setDarkMode(true))
@@ -25,11 +30,17 @@ const NavBar = () => {
 
     }
   }
-  const handleLogout = (e) => {
+  const handleLogout = async (e) => {
     e.preventDefault();
-    dispatch(logout(true))
-    navigate("/login");
-  }
+    try {
+      await logout();
+      localStorage.removeItem("user")
+      navigate("/login")
+    } catch (err) {
+      setErr(err.response.data);
+    }
+  };
+  
 
   return (
     <div className="navbar">
@@ -50,8 +61,8 @@ const NavBar = () => {
         <EmailOutlinedIcon />
         <NotificationsOutlinedIcon />
         <div className="user">
-          <img src={profilePic} alt="" />
-          <span>{name}</span>
+          <img src={currentUser.profilePic} alt="" />
+          <span>{currentUser.name}</span> 
           <LogoutOutlinedIcon onClick={handleLogout} style={{ cursor: "pointer" }} />
         </div>
       </div>

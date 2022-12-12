@@ -13,20 +13,22 @@ import NavBar from "./components/navbar/NavBar";
 import LeftBar from "./components/leftbar/LeftBar";
 import RightBar from "./components/rightbar/RightBar";
 import { useSelector } from "react-redux";
+import { useContext } from "react";
+import { AuthContext } from "./context/authContext";
 
 
 
 
-const ProtectedRoute = () => {
+const ProtectedRoute = ({children}) => {
   return (
     <div>
       <Navigate to="/login" />
     </div>
-  )
+    )
 }
 
 function App() {
-  const { loggedIn } = useSelector(state => state.auth)
+  const { currentUser } = useContext(AuthContext);
   const { darkMode } = useSelector(state => state.dark)
   const Layout = () => {
     return (
@@ -46,9 +48,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/register" element={loggedIn ? <Navigate to="/" /> :  <Register />} />
-        <Route path="/login" element={loggedIn? <Navigate to="/" /> :  <Login />} />
-        <Route path="/" element={!loggedIn ? <ProtectedRoute /> : <Layout />}>
+        <Route path="/register" element={currentUser ? <Navigate to="/" /> :  <Register />} />
+        <Route path="/login" element={currentUser? <Navigate to="/" /> :  <Login />} />
+        <Route path="/" element={currentUser === null ? <ProtectedRoute /> : <Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/profile/:id" element={<Profile />} />
         </Route>
