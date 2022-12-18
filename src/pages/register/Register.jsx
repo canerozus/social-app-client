@@ -11,6 +11,7 @@ const Register = () => {
     password: "",
     name: "",
   });
+  const navigate = useNavigate()
   const [err, setErr] = useState(null);
 
   const handleChange = (e) => {
@@ -21,7 +22,11 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:8800/api/auth/register", inputs);
+      await axios.post("http://localhost:8800/api/auth/register", inputs).then(()=> {
+        
+        navigate("/login")
+      })
+
 
     } catch (err) {
       setErr(err.response.data);
