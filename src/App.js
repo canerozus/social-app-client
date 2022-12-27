@@ -15,42 +15,48 @@ import RightBar from "./components/rightbar/RightBar";
 import { useSelector } from "react-redux";
 import { useContext } from "react";
 import { AuthContext } from "./context/authContext";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 
 
-
-const ProtectedRoute = ({children}) => {
+const ProtectedRoute = ({ children }) => {
   return (
     <div>
       <Navigate to="/login" />
     </div>
-    )
+  )
 }
 
 function App() {
+
   const { currentUser } = useContext(AuthContext);
   const { darkMode } = useSelector(state => state.dark)
+  const queryClient = new QueryClient()
+
   const Layout = () => {
+
     return (
-      <div className={`theme-${darkMode ? "dark" : "light"}`}>
-        <NavBar />
-        <div style={{ display: "flex" }}>
-          <LeftBar />
-          <div style={{ flex: 6 }}>
-            <Outlet />
+      <QueryClientProvider client={queryClient}>
+        <div className={`theme-${darkMode ? "dark" : "light"}`}>
+          <NavBar />
+          <div style={{ display: "flex" }}>
+            <LeftBar />
+            <div style={{ flex: 6 }}>
+              <Outlet />
+            </div>
+            <RightBar />
           </div>
-          <RightBar />
         </div>
-      </div>
+      </QueryClientProvider>
     )
   }
 
   return (
     <Router>
       <Routes>
-        //todos: register, login responsive 
-        <Route path="/register" element={currentUser ? <Navigate to="/" /> :  <Register />} />
-        <Route path="/login" element={currentUser? <Navigate to="/" /> :  <Login />} />
+        //todos: register, login responsive
+        <Route path="/register" element={currentUser ? <Navigate to="/" /> : <Register />} />
+        <Route path="/login" element={currentUser ? <Navigate to="/" /> : <Login />} />
         <Route path="/" element={currentUser === null ? <ProtectedRoute /> : <Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/profile/:id" element={<Profile />} />
