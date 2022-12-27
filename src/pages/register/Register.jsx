@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom"
 import "./Register.scss"
 import axios from "axios"
 
-
 const Register = () => {
   const [inputs, setInputs] = useState({
     username: "",
@@ -13,6 +12,7 @@ const Register = () => {
   });
   const navigate = useNavigate()
   const [err, setErr] = useState(null);
+  const [createData, setCreateData] = useState(null);
 
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -22,12 +22,14 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:8800/api/auth/register", inputs).then(()=> {
-        
-        navigate("/login")
+      await axios.post("http://localhost:8800/api/auth/register", inputs).then((res) => {
+        const data = res.data
+        setCreateData(data)
+        setTimeout(() => {
+          navigate("/login")
+        }, 1500)
+
       })
-
-
     } catch (err) {
       setErr(err.response.data);
     }
@@ -56,8 +58,8 @@ const Register = () => {
             <input type="password" placeholder='Password' name="password" onChange={handleChange} />
             <input type="text" placeholder='Name' name="name" onChange={handleChange} />
             {err && err}
-              <button type="submit">Register</button>
-
+            {createData && createData}
+            <button type="submit">Register</button>
           </form>
         </div>
       </div>

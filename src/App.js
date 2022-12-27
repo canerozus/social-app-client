@@ -48,6 +48,7 @@ function App() {
   return (
     <Router>
       <Routes>
+        //todos: register, login responsive 
         <Route path="/register" element={currentUser ? <Navigate to="/" /> :  <Register />} />
         <Route path="/login" element={currentUser? <Navigate to="/" /> :  <Login />} />
         <Route path="/" element={currentUser === null ? <ProtectedRoute /> : <Layout />}>
