@@ -8,7 +8,7 @@ const Posts = () => {
     (res) => {
       return res.data
     }))
-  console.log(data)
+
   return <div className="posts">
     {/* {data.map((post) => (
       <Post post={post} key={post.id} />
