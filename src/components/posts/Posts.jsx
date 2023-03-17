@@ -4,22 +4,28 @@ import Post from "../post/Post"
 import { makeRequest } from "../../Axios.js";
 import { useEffect, useState } from "react";
 const Posts = () => {
-  const [posts, setPosts] = useState([])
+  const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   useEffect(() => {
     makeRequest.get('/posts')
-      .then(response => setPosts(response.data))
-      .catch(error => console.log(error));
+      .then(response => { setPosts(response.data); setIsLoading(false) })
+      .catch(error => { setError(error.message); setIsLoading(false); console.log(error) });
   }, []);
-  console.log(posts)
-/*   const { isLoading, error, data } = useQuery(["posts"], () => makeRequest.get("/posts").then(
-    (res) => {
-      return res.data
-    })) */
+
+  /*   const { isLoading, error, data } = useQuery(["posts"], () => makeRequest.get("/posts").then(
+      (res) => {
+        return res.data
+      })) */
 
   return <div className="posts">
-    {posts.map((post) => (
+    {error 
+    ? "Something went wrong!" 
+    : isLoading
+    ? "loading"
+    :(posts.map((post) => (
       <Post post={post} key={post.id} />
-    ))} 
+    )))}
 
   </div>;
 };
