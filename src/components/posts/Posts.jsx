@@ -3,6 +3,7 @@ import Post from "../post/Post"
 // import { useQuery } from "@tanstack/react-query";
 import { makeRequest } from "../../Axios.js";
 import { useEffect, useState } from "react";
+
 const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
