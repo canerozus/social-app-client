@@ -13,9 +13,9 @@ import { setDarkMode } from "../../store/DarkSlice";
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
-
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const NavBar = () => {
-  const { currentUser,setCurrentUser } = useContext(AuthContext);
+  const { currentUser, setCurrentUser } = useContext(AuthContext);
   const { darkMode } = useSelector(state => state.dark);
   const [inputs, setInputs] = useState()
   const dispatch = useDispatch();
@@ -40,7 +40,7 @@ const NavBar = () => {
       setErr(err.response.data);
     }
   };
-  
+
 
   return (
     <div className="navbar">
@@ -61,8 +61,11 @@ const NavBar = () => {
         <EmailOutlinedIcon />
         <NotificationsOutlinedIcon />
         <div className="user">
-          <img src={currentUser.profilePic} alt="" />
-          <span>{currentUser.name}</span> 
+          {currentUser.profilePic ?
+            <img src={currentUser.profilePic} alt="" />
+            : <AccountCircleIcon style={{ height: "40px", width: "40px" }} />
+          }
+          <span>{currentUser.name}</span>
           <LogoutOutlinedIcon onClick={handleLogout} style={{ cursor: "pointer" }} />
         </div>
       </div>

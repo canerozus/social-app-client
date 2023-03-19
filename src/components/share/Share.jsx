@@ -5,7 +5,7 @@ import Map from "../../assets/map.png";
 import Friend from "../../assets/friend.png";
 import { useContext } from "react";
 import { AuthContext } from "../../context/authContext";
-
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const Share = () => {
 
   const {currentUser} = useContext(AuthContext)
@@ -13,10 +13,10 @@ const Share = () => {
     <div className="share">
       <div className="container">
         <div className="top">
-          <img
-            src={currentUser.profilePic}
-            alt=""
-          />
+        {currentUser.profilePic ?
+              <img src={currentUser.profilePic} alt="" />
+              : <AccountCircleIcon style={{ height: "40px", width: "40px" }} />
+            }
           <input type="text" placeholder={`What's on your mind ${currentUser.name}?`} />
         </div>
         <hr />

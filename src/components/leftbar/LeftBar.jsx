@@ -14,6 +14,7 @@ import Courses from "../../assets/12.png";
 import Fund from "../../assets/13.png";
 import { AuthContext } from "../../context/authContext";
 import { useContext } from "react";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 
 const LeftBar = () => {
@@ -24,10 +25,10 @@ const LeftBar = () => {
       <div className="container">
         <div className="menu">
           <div className="user">
-            <img
-              src={currentUser.profilePic}
-              alt=""
-            />
+          {currentUser.profilePic ?
+              <img src={currentUser.profilePic} alt="" />
+              : <AccountCircleIcon style={{ height: "40px", width: "40px" }} />
+            }
             <span>{currentUser.name}</span>
           </div>
           <div className="item">
