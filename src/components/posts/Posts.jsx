@@ -8,11 +8,12 @@ const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+
   useEffect(() => {
     makeRequest.get('/posts')
       .then(response => { setPosts(response.data); setIsLoading(false) })
       .catch(error => { setError(error.message); setIsLoading(false); console.log(error) });
-  }, []);
+  });
 
   /*   const { isLoading, error, data } = useQuery(["posts"], () => makeRequest.get("/posts").then(
       (res) => {
