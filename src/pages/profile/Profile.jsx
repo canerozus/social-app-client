@@ -9,10 +9,11 @@ import LanguageIcon from "@mui/icons-material/Language";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Posts from "../../components/posts/Posts"
-import { useSelector } from "react-redux";
-
+import { AuthContext } from "../../context/authContext";
+import { useContext } from "react";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const Profile = () => {
-  const {name, profilePic} = useSelector(state => state.auth)
+  const { currentUser } = useContext(AuthContext)
   return (
     <div className="profile">
       <div className="images">
@@ -21,11 +22,10 @@ const Profile = () => {
           alt=""
           className="cover"
         />
-        <img
-          src={profilePic}
-          alt=""
-          className="profilePic"
-        />
+        {currentUser.profilePic ?
+          <img src={currentUser.profilePic} alt="" />
+          : <AccountCircleIcon style={{ height: "200px", width: "200px", top: "200px", margin:"auto", position:"absolute", left:"0", right:"0" }} />
+        }
       </div>
       <div className="profileContainer">
         <div className="uInfo">
@@ -47,7 +47,7 @@ const Profile = () => {
             </a>
           </div>
           <div className="center">
-            <span>{name}</span>
+            <span>{currentUser.name}</span>
             <div className="info">
               <div className="item">
                 <PlaceIcon />
@@ -65,7 +65,7 @@ const Profile = () => {
             <MoreVertIcon />
           </div>
         </div>
-      <Posts/>
+        <Posts />
       </div>
     </div>
   );

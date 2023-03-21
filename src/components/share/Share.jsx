@@ -7,16 +7,33 @@ import { AuthContext } from "../../context/authContext";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { makeRequest } from "../../Axios.js";
 import moment from "moment"
+
+
 const Share = () => {
   const [file, setFile] = useState(null);
   const [desc, setDesc] = useState("");
   const date = moment()
 
-  const handleClick = e => {
+  const upload = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await makeRequest.post("/upload", formData);
+      return res.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleClick = async (e) => {
     e.preventDefault()
-    makeRequest.post("/posts",{desc,file,date}).then(response=>response.data)
-    .catch(err => console.log(err.message))
+    let imgUrl = "";
+    if (file) imgUrl = upload()
+    console.log(imgUrl)
+    await makeRequest.post("/posts", { desc, img: imgUrl, date }).then(response => response.data)
+      .catch(err => console.log(err.message))
   }
+
   const { currentUser } = useContext(AuthContext)
   return (
     <div className="share">
