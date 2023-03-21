@@ -28,8 +28,7 @@ const Share = () => {
   const handleClick = async (e) => {
     e.preventDefault()
     let imgUrl = "";
-    if (file) imgUrl = upload()
-    console.log(imgUrl)
+    if (file) imgUrl = await upload()
     await makeRequest.post("/posts", { desc, img: imgUrl, date }).then(response => response.data)
       .catch(err => console.log(err.message))
   }
