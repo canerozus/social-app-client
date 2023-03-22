@@ -30,6 +30,7 @@ const Share = () => {
     let imgUrl = "";
     if (file) imgUrl = await upload()
     await makeRequest.post("/posts", { desc, img: imgUrl, date }).then(response => response.data)
+      .then(response => { console.log(response); setDesc(""); setFile(null) })
       .catch(err => console.log(err.message))
   }
 
@@ -38,12 +39,19 @@ const Share = () => {
     <div className="share">
       <div className="container">
         <div className="top">
-          {currentUser.profilePic ?
-            <img src={currentUser.profilePic} alt="" />
-            : <AccountCircleIcon style={{ height: "40px", width: "40px" }} />
-          }
-          <input type="text" required placeholder={`What's on your mind ${currentUser.name}?`}
-            onChange={e => setDesc(e.target.value)} />
+          <div className="left">
+            {currentUser.profilePic ?
+              <img src={"/upload/" + currentUser.profilePic} alt="" />
+              : <AccountCircleIcon style={{ height: "40px", width: "40px" }} />
+            }
+            <input type="text" required placeholder={`What's on your mind ${currentUser.name}?`}
+              onChange={e => setDesc(e.target.value)} value={desc} />
+          </div>
+          <div className="right">
+            {file && (
+              <img className="file" alt="" src={URL.createObjectURL(file)} />
+            )}
+          </div>
         </div>
         <hr />
         <div className="bottom">
