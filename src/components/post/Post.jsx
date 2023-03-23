@@ -14,16 +14,18 @@ import { makeRequest } from '../../Axios';
 import { AuthContext } from "../../context/authContext";
 const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
-  const [like, setLike] = useState([])
-
+  const [showLike, setShowLike] = useState([])
   const { currentUser } = useContext(AuthContext)
 
   useEffect(() => {
-    makeRequest.get("/likes?postId=" + post.id).then(response => { setLike(response.data) })
+    makeRequest.get("/likes?postId=" + post.id).then(response => { setShowLike(response.data) })
       .catch(err => console.log(err))
-  }, [like])
-console.log(currentUser.id)
+  }, [showLike])
 
+  const handleLikes = () => {
+    (!showLike.includes(currentUser.id)) ? makeRequest.post("/likes", {postId: post.id}).then(response => response.data)
+      : makeRequest.delete("/likes?postId=" + post.id ).then(response => response.data)
+  }
   return (
     <div className="post">
       <div className="container">
@@ -50,9 +52,10 @@ console.log(currentUser.id)
           <img src={"./upload/" + post.img} alt="" />
         </div>
         <div className="info">
-          <div className="item">
-            {like.includes(currentUser.id) ? <FavoriteOutlinedIcon style={{ color: "red" }} /> : <FavoriteBorderOutlinedIcon />}
-            {like.length} Likes
+          <div className="item" onClick={handleLikes}>
+            {showLike.includes(currentUser.id) ? <FavoriteOutlinedIcon style={{ color: "red" }}  />
+              : <FavoriteBorderOutlinedIcon  />}
+            {showLike.length} Likes
           </div>
           <div className="item" onClick={() => setCommentOpen(!commentOpen)}>
             <TextsmsOutlinedIcon />
