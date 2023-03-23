@@ -10,10 +10,22 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Posts from "../../components/posts/Posts"
 import { AuthContext } from "../../context/authContext";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { makeRequest } from "../../Axios";
+import { useLocation } from "react-router-dom";
 const Profile = () => {
-  const { currentUser } = useContext(AuthContext)
+  const [data, setData] = useState({})
+  const userId = parseInt(useLocation().pathname.split("/")[2]);
+
+  useEffect(() => {
+      makeRequest.get("/users/find/" + userId).then(response => setData(response.data))
+      .catch(err => console.log(err))
+
+  },[setData])
+  
+const { currentUser } = useContext(AuthContext)
+
   return (
     <div className="profile">
       <div className="images">
@@ -22,9 +34,9 @@ const Profile = () => {
           alt=""
           className="cover"
         />
-        {currentUser.profilePic ?
-          <img src={currentUser.profilePic} alt="" />
-          : <AccountCircleIcon style={{ height: "200px", width: "200px", top: "200px", margin:"auto", position:"absolute", left:"0", right:"0" }} />
+        {data.profilePic ?
+          <img src={data.profilePic} alt="" />
+          : <AccountCircleIcon style={{ height: "200px", width: "200px", top: "200px", margin: "auto", position: "absolute", left: "0", right: "0" }} />
         }
       </div>
       <div className="profileContainer">
@@ -47,7 +59,7 @@ const Profile = () => {
             </a>
           </div>
           <div className="center">
-            <span>{currentUser.name}</span>
+            <span>{data.name}</span>
             <div className="info">
               <div className="item">
                 <PlaceIcon />
@@ -58,14 +70,14 @@ const Profile = () => {
                 <span>lorem ipsum</span>
               </div>
             </div>
-            <button>follow</button>
+            {userId === currentUser.id ? "" : <button>Follow</button>}
           </div>
           <div className="right">
             <EmailOutlinedIcon />
             <MoreVertIcon />
           </div>
         </div>
-        <Posts />
+         <Posts /> 
       </div>
     </div>
   );
