@@ -29,7 +29,7 @@ const Share = () => {
     e.preventDefault()
     let imgUrl = "";
     if (file) imgUrl = await upload()
-    await makeRequest.post("/posts", { desc, img: imgUrl, date }).then(response => response.data)
+    await makeRequest.post("/posts", { desc, img: imgUrl }).then(response => response.data)
       .then(response => { console.log(response); setDesc(""); setFile(null) })
       .catch(err => console.log(err.message))
   }
