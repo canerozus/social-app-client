@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import "./Post.scss"
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
@@ -10,13 +10,19 @@ import { Link } from "react-router-dom";
 import Comments from "../comments/Comments";
 import { useState } from "react";
 import moment from "moment";
-
-
+import { makeRequest } from '../../Axios';
+import { AuthContext } from "../../context/authContext";
 const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
-  
-  //TEMPORARY
-  const liked = false;
+  const [like, setLike] = useState([])
+
+  const { currentUser } = useContext(AuthContext)
+
+  useEffect(() => {
+    makeRequest.get("/likes?postId=" + post.id).then(response => { setLike(response.data) })
+      .catch(err => console.log(err))
+  }, [like])
+console.log(currentUser.id)
 
   return (
     <div className="post">
@@ -41,16 +47,16 @@ const Post = ({ post }) => {
         </div>
         <div className="content">
           <p>{post.desc}</p>
-          <img src={"./upload/"+ post.img} alt="" />
+          <img src={"./upload/" + post.img} alt="" />
         </div>
         <div className="info">
           <div className="item">
-            {liked ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
-            12 Likes
+            {like.includes(currentUser.id) ? <FavoriteOutlinedIcon style={{ color: "red" }} /> : <FavoriteBorderOutlinedIcon />}
+            {like.length} Likes
           </div>
           <div className="item" onClick={() => setCommentOpen(!commentOpen)}>
             <TextsmsOutlinedIcon />
-            12 Comments
+            Show Comments
           </div>
           <div className="item">
             <ShareOutlinedIcon />

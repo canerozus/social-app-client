@@ -12,7 +12,7 @@ const Comments = ({ postId }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [desc, setDesc] = useState("");
-  const date = moment()
+  
 
   useEffect(() => {
     makeRequest.get('/comments?postId=' + postId)
