@@ -32,7 +32,7 @@ function App() {
   const { currentUser } = useContext(AuthContext);
   const { darkMode } = useSelector(state => state.dark)
   const queryClient = new QueryClient()
-
+console.log(currentUser)
   const Layout = () => {
 
     return (
@@ -40,11 +40,11 @@ function App() {
         <div className={`theme-${darkMode ? "dark" : "light"}`}>
           <NavBar />
           <div style={{ display: "flex" }}>
-            <LeftBar />
-            <div style={{ flex: 6 }}>
+            <LeftBar  />
+            <div style={{ flex: 10 }}>
               <Outlet />
             </div>
-            <RightBar />
+            {/* <RightBar /> */}
           </div>
         </div>
       </QueryClientProvider>

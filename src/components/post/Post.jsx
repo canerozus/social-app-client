@@ -15,6 +15,7 @@ import { AuthContext } from "../../context/authContext";
 const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
   const [showLike, setShowLike] = useState([])
+  const [menuOpen, setMenuOpen] = useState(false)
   const { currentUser } = useContext(AuthContext)
 
   useEffect(() => {
@@ -23,8 +24,13 @@ const Post = ({ post }) => {
   }, [showLike])
 
   const handleLikes = () => {
-    (!showLike.includes(currentUser.id)) ? makeRequest.post("/likes", {postId: post.id}).then(response => response.data)
-      : makeRequest.delete("/likes?postId=" + post.id ).then(response => response.data)
+    (!showLike.includes(currentUser.id)) ? makeRequest.post("/likes", { postId: post.id }).then(response => response.data)
+      : makeRequest.delete("/likes?postId=" + post.id).then(response => response.data)
+  }
+  const handleDelete = () => {
+    makeRequest.delete("/posts/" + post.id).then(res => res.data)
+      .catch(err => console.log(err))
+
   }
   return (
     <div className="post">
@@ -45,7 +51,10 @@ const Post = ({ post }) => {
               <span className="date">{moment(post.createdAt).fromNow()}</span>
             </div>
           </div>
-          <MoreHorizIcon />
+          <MoreHorizIcon onClick={() => setMenuOpen(!menuOpen)} />
+          {menuOpen && post.userId === currentUser.id && (
+            <button onClick={handleDelete}>delete</button>
+          )}
         </div>
         <div className="content">
           <p>{post.desc}</p>
@@ -53,13 +62,13 @@ const Post = ({ post }) => {
         </div>
         <div className="info">
           <div className="item" onClick={handleLikes}>
-            {showLike.includes(currentUser.id) ? <FavoriteOutlinedIcon style={{ color: "red" }}  />
-              : <FavoriteBorderOutlinedIcon  />}
+            {showLike.includes(currentUser.id) ? <FavoriteOutlinedIcon style={{ color: "red" }} />
+              : <FavoriteBorderOutlinedIcon />}
             {showLike.length} Likes
           </div>
           <div className="item" onClick={() => setCommentOpen(!commentOpen)}>
             <TextsmsOutlinedIcon />
-            Show Comments
+            See Comments
           </div>
           <div className="item">
             <ShareOutlinedIcon />

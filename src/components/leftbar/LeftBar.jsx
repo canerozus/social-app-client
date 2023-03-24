@@ -15,6 +15,7 @@ import Fund from "../../assets/13.png";
 import { AuthContext } from "../../context/authContext";
 import { useContext } from "react";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { Link } from "react-router-dom";
 
 
 const LeftBar = () => {
@@ -25,11 +26,15 @@ const LeftBar = () => {
       <div className="container">
         <div className="menu">
           <div className="user">
-          {currentUser.profilePic ?
+            {currentUser.profilePic ?
               <img src={currentUser.profilePic} alt="" />
               : <AccountCircleIcon style={{ height: "40px", width: "40px" }} />
             }
-            <span>{currentUser.name}</span>
+            <Link
+              to={`/profile/${currentUser.id}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            ><span>{currentUser.name}</span>
+            </Link>
           </div>
           <div className="item">
             <img src={Friends} alt="" />
@@ -93,7 +98,7 @@ const LeftBar = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

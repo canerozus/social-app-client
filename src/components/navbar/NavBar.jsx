@@ -57,13 +57,13 @@ const NavBar = () => {
         </div>
       </div>
       <div className="right">
-        <PersonOutlineOutlinedIcon />
-        <EmailOutlinedIcon />
-        <NotificationsOutlinedIcon />
+        <PersonOutlineOutlinedIcon className="icon"/>
+        <EmailOutlinedIcon className="icon"/>
+        <NotificationsOutlinedIcon className="icon" />
         <div className="user">
           {currentUser.profilePic ?
             <img src={currentUser.profilePic} alt="" />
-            : <AccountCircleIcon style={{ height: "40px", width: "40px" }} />
+            : <AccountCircleIcon style={{ height: "40px", width: "40px" }} className="icon" />
           }
           <span>{currentUser.name}</span>
           <LogoutOutlinedIcon onClick={handleLogout} style={{ cursor: "pointer" }} />

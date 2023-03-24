@@ -3,9 +3,14 @@
 .home {
     @include themify($themes) {
         height: calc(100vh - 70px);
-        padding: 20px 70px;
+        overflow-y: scroll;
+        padding: 30px 70px;
         background: themed("bgSoft");
         color: themed("textColor");
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
 
         @include mobile {
             padding: 10px;

@@ -53,10 +53,10 @@ const Register = () => {
         <div className='left'>
           <h1>Register</h1>
           <form onSubmit={handleClick}>
-            <input type="text" placeholder='Username' name="username" onChange={handleChange} />
-            <input type="email" placeholder='Email' name="email" onChange={handleChange} />
-            <input type="password" placeholder='Password' name="password" onChange={handleChange} />
-            <input type="text" placeholder='Name' name="name" onChange={handleChange} />
+            <input type="text" placeholder='Username' name="username" required onChange={handleChange} />
+            <input type="email" placeholder='Email' name="email" required onChange={handleChange} />
+            <input type="password" placeholder='Password' name="password" required onChange={handleChange} />
+            <input type="text" placeholder='Name' name="name" required onChange={handleChange} />
             {err && err}
             {createData && createData}
             <button type="submit">Register</button>

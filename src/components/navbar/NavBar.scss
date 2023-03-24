@@ -33,6 +33,10 @@
                 border-radius: 5px;
                 padding: 5px;
 
+                @include mobile {
+                    display: none;
+                }
+
                 input {
                     color: themed("textColor");
                     background: transparent;
@@ -56,8 +60,10 @@
             align-items: center;
             gap: 20px;
 
-            @include mobile {
-                display: none;
+            .icon {
+                @include mobile {
+                    display: none;
+                }
             }
 
             .user {
@@ -66,18 +72,21 @@
                 gap: 10px;
                 font-weight: 500;
 
-                @include tablet {
-                    display: none;
-                }
 
                 img {
                     width: 30px;
                     height: 30px;
                     border-radius: 50%;
                     object-fit: cover;
+
+
                 }
 
-                span {}
+                span {
+                    @include mobile {
+                        display: none;
+                    }
+                }
             }
         }
     }
