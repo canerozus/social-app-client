@@ -16,15 +16,24 @@ import { makeRequest } from "../../Axios";
 import { useLocation } from "react-router-dom";
 const Profile = () => {
   const [data, setData] = useState({})
+  const [follow, setFollow] = useState([])
+  const [isLoading, setIsloading] = useState(true)
   const userId = parseInt(useLocation().pathname.split("/")[2]);
 
   useEffect(() => {
-      makeRequest.get("/users/find/" + userId).then(response => setData(response.data))
+    makeRequest.get("/users/find/" + userId).then(response => { setData(response.data); setIsloading(false) })
       .catch(err => console.log(err))
+    makeRequest.get("/relationships?followedUserId=" + userId).then(res => { setFollow(res.data); setIsloading(false) })
+      .catch(err => console.log(err))
+  }, [data || follow])
 
-  },[setData])
-  
-const { currentUser } = useContext(AuthContext)
+  const handleFollow = () => {
+    (!follow.includes(currentUser.id)) ? makeRequest.post("/relationships", { userId }).then(response => response.data)
+      : makeRequest.delete("/relationships?userId=" + userId).then(response => response.data)
+  }
+
+
+  const { currentUser } = useContext(AuthContext)
 
   return (
     <div className="profile">
@@ -70,14 +79,14 @@ const { currentUser } = useContext(AuthContext)
                 <span>lorem ipsum</span>
               </div>
             </div>
-            {userId === currentUser.id ? "" : <button>Follow</button>}
+            {isLoading ? "loading" : userId === currentUser.id ? "" : <button onClick={handleFollow}>{follow.includes(currentUser.id) ? "Following" : "Follow"}</button>}
           </div>
           <div className="right">
             <EmailOutlinedIcon />
             <MoreVertIcon />
           </div>
         </div>
-         <Posts /> 
+        <Posts userId={userId}/>
       </div>
     </div>
   );
