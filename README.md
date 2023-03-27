@@ -7,7 +7,7 @@ The app has been designed using SCSS, making it highly customizable and easy to 
 
 Overall, this app is a great way to connect with others and share your thoughts, experiences, and images. Whether you're an avid social media user or new to the scene, this app offers a great way to engage with others and build your online presence using the latest technologies.
 
-## Login and Register page
+## Login and Register Page
 ![image](https://user-images.githubusercontent.com/83680245/227955789-dc68dfc5-39f6-47b5-ac0a-9c16ab5bc9cf.png)
 ![image](https://user-images.githubusercontent.com/83680245/227955917-75cc7087-4bf3-48f8-ab82-9afa8f406f41.png)
 
