@@ -1,5 +1,5 @@
 # social-app
-Introducing a new application built with the latest technologies, including React, SCSS, MySQL, Node, and Express. This app offers a responsive design, making it accessible on all devices.
+Introducing a new application with a responsive design built using React, SCSS, MySQL, Node, and Express. Users can easily sign up and post content, like, comment, and share photos. The app includes a dark and light mode feature for optimal viewing in different lighting conditions.
 
 With a simple login and registration screen, users can quickly sign up and start posting content. Once logged in, users can create posts, like and comment on posts from other users, and share their own photos.
 
