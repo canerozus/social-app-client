@@ -32,7 +32,6 @@ function App() {
   const { currentUser } = useContext(AuthContext);
   const { darkMode } = useSelector(state => state.dark)
   const queryClient = new QueryClient()
-console.log(currentUser)
   const Layout = () => {
 
     return (
@@ -54,7 +53,6 @@ console.log(currentUser)
   return (
     <Router>
       <Routes>
-        //todos: register, login responsive
         <Route path="/register" element={currentUser ? <Navigate to="/" /> : <Register />} />
         <Route path="/login" element={currentUser ? <Navigate to="/" /> : <Login />} />
         <Route path="/" element={currentUser === null ? <ProtectedRoute /> : <Layout />}>

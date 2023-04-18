@@ -12,26 +12,32 @@ import { useState } from "react";
 import moment from "moment";
 import { makeRequest } from '../../Axios';
 import { AuthContext } from "../../context/authContext";
-const Post = ({ post }) => {
+const Post = ({ post, setPosts, posts }) => {
   const [commentOpen, setCommentOpen] = useState(false);
   const [showLike, setShowLike] = useState([])
   const [menuOpen, setMenuOpen] = useState(false)
+
   const { currentUser } = useContext(AuthContext)
 
   useEffect(() => {
-    makeRequest.get("/likes?postId=" + post.id).then(response => { setShowLike(response.data) })
-      .catch(err => console.log(err))
-  }, [showLike])
+    makeRequest.get("/likes?postId=" + post.id).then(response => { setShowLike(response.data)})
+    .catch(err => console.log(err))
+  },[])
+
 
   const handleLikes = () => {
-    (!showLike.includes(currentUser.id)) ? makeRequest.post("/likes", { postId: post.id }).then(response => response.data)
-      : makeRequest.delete("/likes?postId=" + post.id).then(response => response.data)
+    (!showLike.includes(currentUser.id)) ? makeRequest.post("/likes", { postId: post.id }).then(response => setShowLike([currentUser.id]))
+      : makeRequest.delete("/likes?postId=" + post.id).then(response =>setShowLike(showLike.filter(id => id !== currentUser.id)))
   }
-  const handleDelete = () => {
-    makeRequest.delete("/posts/" + post.id).then(res => res.data)
-      .catch(err => console.log(err))
 
+  const handleDelete = () => {
+    makeRequest.delete("/posts/" + post.id).then(res => {
+      const updatedPosts = posts.filter(value => value.id !== post.id);
+      setPosts(updatedPosts);
+    })
+      .catch(err => console.log(err))
   }
+  
   return (
     <div className="post">
       <div className="container">

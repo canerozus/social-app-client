@@ -12,18 +12,18 @@ const Comments = ({ postId }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [desc, setDesc] = useState("");
-  
+  const [comm, setComm] = useState([])
 
   useEffect(() => {
     makeRequest.get('/comments?postId=' + postId)
-      .then(response => { setComments(response.data); setIsLoading(false) })
+      .then(response => { setComments(response.data); setIsLoading(false); setComm(response.data.length)})
       .catch(error => { setError(error.message); setIsLoading(false); console.log(error) });
-  }, [comments]);
-  //Despite there is a dependency array comments still in infinite loop ? 
+  }, [comm]);
+
   const handleClick = (e) => {
     e.preventDefault();
     makeRequest.post("/comments", { desc, postId }).then(response => response.data)
-      .then(response => { console.log(response); setDesc("") })
+      .then(response => { console.log(response); setDesc("");setComm(response.data) })
       .catch(err => console.log(err.message))
   }
 

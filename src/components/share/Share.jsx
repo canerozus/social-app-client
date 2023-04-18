@@ -7,9 +7,10 @@ import { AuthContext } from "../../context/authContext";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { makeRequest } from "../../Axios.js";
 import moment from "moment"
+import { useNavigate } from "react-router-dom";
 
 
-const Share = () => {
+const Share = ({ setPosts }) => {
   const [file, setFile] = useState(null);
   const [desc, setDesc] = useState("");
   const date = moment()
@@ -30,9 +31,15 @@ const Share = () => {
     let imgUrl = "";
     if (file) imgUrl = await upload()
     await makeRequest.post("/posts", { desc, img: imgUrl }).then(response => response.data)
-      .then(response => { console.log(response); setDesc(""); setFile(null) })
+    .then((response) => {
+      console.log(response);
+      setDesc("");
+      setFile(null);
+      window.location.reload()
+    })
       .catch(err => console.log(err.message))
   }
+
 
   const { currentUser } = useContext(AuthContext)
   return (
