@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const makeRequest = axios.create({
-baseURL:"https://social-app-be-bice.vercel.app/api/",
+baseURL:"https://social-caner-backend.herokuapp.com/api/",
 withCredentials:true,
 })
 // baseURL:"https://social-caner-backend.herokuapp.com/api/",
