@@ -22,7 +22,7 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:8800/api/auth/register", inputs).then((res) => {
+      await axios.post("https://social-app-be-bice.vercel.app/api/auth/register", inputs).then((res) => {
         const data = res.data
         setCreateData(data)
         setTimeout(() => {
