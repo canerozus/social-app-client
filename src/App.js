@@ -11,7 +11,6 @@ import {
 } from "react-router-dom";
 import NavBar from "./components/navbar/NavBar";
 import LeftBar from "./components/leftbar/LeftBar";
-import RightBar from "./components/rightbar/RightBar";
 import { useSelector } from "react-redux";
 import { useContext } from "react";
 import { AuthContext } from "./context/authContext";
@@ -43,7 +42,7 @@ function App() {
             <div style={{ flex: 10 }}>
               <Outlet />
             </div>
-            {/* <RightBar /> */}
+
           </div>
         </div>
       </QueryClientProvider>
